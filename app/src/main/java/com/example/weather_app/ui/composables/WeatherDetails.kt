@@ -24,11 +24,18 @@ fun WeatherDetails(
     data: WeatherModel,
     modifier: Modifier = Modifier
     ) {
+    val condition = data.weather.firstOrNull()?.main ?: "Unknown"
+    val emoji = weatherEmoji(condition)
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(
+                topStart = 16.dp,
+                topEnd = 16.dp,
+                bottomStart = 0.dp,
+                bottomEnd = 0.dp))
             .background(Color.LightGray)
             .padding(16.dp)
     ) {
@@ -48,4 +55,30 @@ fun WeatherDetails(
             modifier = Modifier.size(100.dp)
         )
     }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(
+                topStart = 0.dp,
+                topEnd = 0.dp,
+                bottomStart = 16.dp,
+                bottomEnd = 16.dp))
+            .background(Color.Green)
+            .padding(16.dp)
+    ) {
+        Text(
+            text = "$emoji $condition",
+            fontSize = 22.sp
+        )
+    }
+}
+
+fun weatherEmoji(condition: String): String = when {
+    condition.contains("rain", true) -> "🌧️"
+    condition.contains("cloud", true) -> "☁️"
+    condition.contains("snow", true) -> "❄️"
+    condition.contains("sun", true) -> "☀️"
+    else -> "🌡️"
 }
