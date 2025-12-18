@@ -20,5 +20,12 @@ data class Weather(
 
 data class Main(
     @SerializedName("temp")
-    val temp_c: Float
+    val temp_c: Float,
+    @SerializedName("feels_like")
+    val feels_like_c: Float,
+    @SerializedName("temp_min")
+    val temp_min_c: Float,
+    @SerializedName("temp_max")
+    val temp_max_c: Float,
+    val humidity: Int
 )
