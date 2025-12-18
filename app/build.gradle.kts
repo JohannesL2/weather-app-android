@@ -1,3 +1,13 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = project.file("secret.properties")
+if(localPropertiesFile.exists() && localPropertiesFile.isFile) {
+    localPropertiesFile.inputStream().use {
+        localProperties.load(it)
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,13 +30,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+        debug {
+            buildConfigField(
+                "String",
+                "MY_API_KEY",
+                "\"${localProperties.getProperty("MY_API_KEY")}\""
             )
+        }
+        release {
+            buildConfigField(
+                "String",
+                "MY_API_KEY",
+                "\"${localProperties.getProperty("MY_API_KEY")}\""
+            )
+            isMinifyEnabled = false
         }
     }
     compileOptions {
@@ -38,6 +57,8 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+        resValues = true
     }
 }
 
@@ -57,4 +78,19 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.10.0")
+
+
+    // Retrofit for API calls
+    val retrofitVersion = "2.11.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+
+    // Coil for image loading in Compose
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // Compose dependencies
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
 }
