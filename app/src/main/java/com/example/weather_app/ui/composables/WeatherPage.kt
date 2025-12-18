@@ -48,6 +48,7 @@ fun WeatherPage(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
+            .background(Color(0xFFF8F9FA))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.shadow
 
 
 @Composable
@@ -28,50 +29,67 @@ fun WeatherDetails(
     val emoji = weatherEmoji(condition)
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(
-                topStart = 16.dp,
-                topEnd = 16.dp,
-                bottomStart = 0.dp,
-                bottomEnd = 0.dp))
-            .background(Color.LightGray)
-            .padding(16.dp)
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(16.dp),
+                clip = false
+            )
     ) {
-        val locationText = "${data.name}, ${data.sys.country}"
-        Text(locationText, fontSize = 24.sp)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 16.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
+                )
+                .background(Color(0xFFF2F2F2))
+                .padding(16.dp)
+        ) {
+            val locationText = "${data.name}, ${data.sys.country}"
+            Text(locationText, fontSize = 24.sp)
 
-        val conditionText = data.weather.firstOrNull()?.main ?: "Loading..."
-        Text(conditionText, fontSize = 20.sp)
+            val conditionText = data.weather.firstOrNull()?.main ?: "Loading..."
+            Text(conditionText, fontSize = 20.sp)
 
-        val temperatureText = "${data.main.temp_c}°C"
-        Text(temperatureText, fontSize = 64.sp)
+            val temperatureText = "${data.main.temp_c}°C"
+            Text(temperatureText, fontSize = 64.sp)
 
-        AsyncImage(
-            model = data.weather.firstOrNull()?.icon?.let { "https://openweathermap.org/img/wn/$it@2x.png" } ?: "",
-            contentDescription = "Weather Icon",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(100.dp)
-        )
-    }
+            AsyncImage(
+                model = data.weather.firstOrNull()?.icon?.let { "https://openweathermap.org/img/wn/$it@2x.png" }
+                    ?: "",
+                contentDescription = "Weather Icon",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(100.dp)
+            )
+        }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(
-                topStart = 0.dp,
-                topEnd = 0.dp,
-                bottomStart = 16.dp,
-                bottomEnd = 16.dp))
-            .background(Color.Green)
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "$emoji $condition",
-            fontSize = 22.sp
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 0.dp,
+                        topEnd = 0.dp,
+                        bottomStart = 16.dp,
+                        bottomEnd = 16.dp
+                    )
+                )
+                .background(Color(0xFFE6F4EA))
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "$emoji $condition",
+                fontSize = 22.sp
+            )
+        }
     }
 }
 
