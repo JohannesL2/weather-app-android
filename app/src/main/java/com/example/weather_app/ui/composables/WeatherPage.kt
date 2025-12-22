@@ -32,6 +32,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.foundation.clickable
 
 
 @Composable
@@ -57,14 +58,20 @@ fun WeatherPage(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth() .padding(vertical = 16.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
         ) {
             OutlinedTextField(
                 value = city,
                 onValueChange = { city = it },
-                label = { Text("Search City") },
                 shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.weight(1f),
+                placeholder = { Text("Search for a city...")},
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp)
+                ,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Search
@@ -77,9 +84,15 @@ fun WeatherPage(
             )
             IconButton(
                 onClick = { viewModel.getData(city) },
-                modifier = Modifier.padding(start = 8.dp)
-                ) {
-                Icon(Icons.Default.Search, contentDescription = "Search")
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(Color(0xFF4CAF50), shape = RoundedCornerShape(12.dp))
+            ) {
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = "Search",
+                        tint = Color.White
+                    )
             }
         }
 

@@ -1,6 +1,7 @@
 package com.example.weather_app.ui.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -110,8 +111,10 @@ clip = false
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
+            .height(150.dp)
             .clip(
                 RoundedCornerShape(
                     topStart = 16.dp,
@@ -120,7 +123,7 @@ clip = false
                     bottomEnd = 0.dp
                 )
             )
-            .background(Color(0xFFF2F2F2))
+            .background(Color(0xFFE6F4EA))
             .padding(16.dp)
     ) {
         val feelslikeText = "Feels like: ${data.main.feels_like_c}°C"
